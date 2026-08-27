@@ -55,7 +55,7 @@ function TradeTab() {
     <div className="panel">
       <p className="intro">
         Paste one guildmate per line — a <strong>name</strong> then their{" "}
-        <strong>base coord</strong> (e.g. <span className="mono">Serpico B25:44:86:30</span>).
+        <strong>base coord</strong> (e.g. <span className="mono">Guildmate1 A00:00:00:00</span>).
         The navigator pairs everyone so each base trades exactly once, choosing
         the set of pairs with the shortest total distance. An odd base out gets
         flagged.
@@ -68,7 +68,7 @@ function TradeTab() {
         </div>
         <textarea
           spellCheck={false}
-          placeholder={"Skull Knight B25:44:69:30\nSerpico B25:44:86:30\nWyald B25:46:33:30\n..."}
+          placeholder={"Guildmate1 A00:00:00:00\nGuildmate2 A00:00:00:00\nGuildmate3 A00:00:00:00\n..."}
           value={blob}
           onChange={(e) => {
             setBlob(e.target.value);
@@ -217,7 +217,7 @@ function AstroTab() {
           <input
             className="single mono"
             spellCheck={false}
-            placeholder="A00:56:20:40"
+            placeholder="A00:00:00:00"
             value={baseRaw}
             onChange={(e) => {
               setBaseRaw(e.target.value);
@@ -249,7 +249,7 @@ function AstroTab() {
         <textarea
           spellCheck={false}
           placeholder={
-            "A00:45:69:30 Prinny Exodus\nA00:45:65:30 Borborygmos 3\nA00:44:99:40\n..."
+            "A00:00:00:00\nA00:00:00:00\nA00:00:00:00\n..."
           }
           value={blob}
           onChange={(e) => {
@@ -293,7 +293,7 @@ function AstroTab() {
       {ran && !base && (
         <div className="empty">
           Enter a readable base coord first — format{" "}
-          <span className="mono">A00:56:20:40</span>.
+          <span className="mono">A00:00:00:00</span>.
         </div>
       )}
 
@@ -349,9 +349,9 @@ export default function Page() {
     <div className="wrap">
       <header className="masthead">
         <span className="brand">
-          VOIDTREK<span className="dot">·</span>NAV
+          AE<span className="dot">·</span>NAV
         </span>
-        <span className="tagline">route console</span>
+        <span className="tagline">Distance helper</span>
         <span className="mast-right">Astro Empires distance model</span>
       </header>
 

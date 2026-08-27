@@ -35,7 +35,6 @@ function CoordLink({ coord }) {
 /* ── Tab 1: Closest Trade ─────────────────────────────────────────── */
 function TradeTab() {
   const [blob, setBlob] = useState("");
-  const [aeSerie, setAeSerie] = useState(true); // true => series >=5
   const [ran, setRan] = useState(false);
 
   const parsed = useMemo(() => parseLines(blob), [blob]);
@@ -44,8 +43,8 @@ function TradeTab() {
 
   const result = useMemo(() => {
     if (!ran || valid.length < 2) return null;
-    return bestMatching(valid, aeSerie ? 5 : 4);
-  }, [ran, valid, aeSerie]);
+    return bestMatching(valid);
+  }, [ran, valid]);
 
   const maxDist = result
     ? Math.max(...result.pairs.map((p) => p.dist), 0)
@@ -94,14 +93,6 @@ function TradeTab() {
         >
           Clear
         </button>
-        <label className="toggle">
-          <input
-            type="checkbox"
-            checked={aeSerie}
-            onChange={(e) => setAeSerie(e.target.checked)}
-          />
-          Series ≥ 5 (doubles cross-galaxy cost)
-        </label>
       </div>
 
       {invalid.length > 0 && (
@@ -174,7 +165,6 @@ function TradeTab() {
 function AstroTab() {
   const [baseRaw, setBaseRaw] = useState("");
   const [blob, setBlob] = useState("");
-  const [aeSerie, setAeSerie] = useState(true);
   const [ran, setRan] = useState(false);
 
   const base = useMemo(() => parseCoord(baseRaw.trim()), [baseRaw]);
@@ -185,9 +175,9 @@ function AstroTab() {
   const ranked = useMemo(() => {
     if (!ran || !base) return null;
     return valid
-      .map((e) => ({ ...e, dist: distance(base, e.coord, aeSerie ? 5 : 4) }))
+      .map((e) => ({ ...e, dist: distance(base, e.coord) }))
       .sort((a, b) => a.dist - b.dist);
-  }, [ran, base, valid, aeSerie]);
+  }, [ran, base, valid]);
 
   const maxDist = ranked ? Math.max(...ranked.map((r) => r.dist), 0) : 0;
 
@@ -224,20 +214,6 @@ function AstroTab() {
               setRan(false);
             }}
           />
-        </div>
-        <div className="field">
-          <div className="label">
-            Series
-            <span className="hint">galaxy-jump cost model</span>
-          </div>
-          <label className="toggle" style={{ paddingTop: 10 }}>
-            <input
-              type="checkbox"
-              checked={aeSerie}
-              onChange={(e) => setAeSerie(e.target.checked)}
-            />
-            Series ≥ 5
-          </label>
         </div>
       </div>
 
@@ -378,9 +354,6 @@ export default function Page() {
         Distance uses the game&apos;s <code>calc_distance()</code> model:
         system distance is <code>ceil(√(Δx² + Δy²))</code> where{" "}
         <code>x = reg₁·10 + sys₁</code> and <code>y = reg₀·10 + sys₀</code>.
-        Same-galaxy results are identical for either series; the series toggle
-        only changes cross-galaxy jumps. Coords link to{" "}
-        <code>test.voidtrek.com/map</code>.
       </p>
     </div>
   );
